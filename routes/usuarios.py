@@ -92,6 +92,3 @@ class Usuarios(object):
 
         except:
             return "Error"
-
-def teste(self):
-    pass

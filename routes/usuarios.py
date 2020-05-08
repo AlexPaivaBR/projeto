@@ -1,33 +1,31 @@
 from database.banco import Cadastrados
 
 class Usuarios(object):
-    def __init__(self, usuario = "", senha = "", novoUsuario = "", novaSenha = ""):
+    def __init__(self, usuario = "", senha = ""):
         self.usuario = usuario
         self.senha = senha
-        self.novoUsuario = novoUsuario
-        self.novaSenha = novaSenha
-    
+
     def cadastrarUsuario(self):
-        
+
         banco = Cadastrados()
         c = banco.conexao.cursor()
 
-        novoUsuario = self.novoUsuario
-        novaSenha = self.novaSenha
+        novoUsuario = self.usuario
+        novaSenha = self.senha
 
-        print("Criando cadastro...")
+        print("\nCriando cadastro...")
         print("Novo usuário: {}".format(novoUsuario))
         print("Nova senha: {}".format(novaSenha))
 
         localizarUsuario = ('SELECT * FROM usuarios WHERE usuario = ?')
         c.execute(localizarUsuario, [(novoUsuario)])
 
-        print("Localizando usuário existente...")
+        print("\nLocalizando usuário existente...")
         verificarCadastro = c.fetchall()
 
         try:
             if verificarCadastro:
-                print("Usuário localizado!")
+                print("\nUsuário localizado!")
                 return "Usuário já existe!"
             
             elif novoUsuario == "" and novaSenha == "":
@@ -39,13 +37,16 @@ class Usuarios(object):
             elif novaSenha == "":
                 return "Insira uma senha"
 
+            elif len(novaSenha) < 8:
+                return "Utilize uma senha com: \n- 8 caracteres ou mais"
+
             else:
                 inserir = ('INSERT INTO usuarios(usuario, senha) VALUES (?, ?)')
                 c.execute(inserir, [(novoUsuario), (novaSenha)])
 
                 banco.conexao.commit()
                 
-                print("Usuário criado!")
+                print("\nUsuário criado!")
                 return "Conta criada!"
         except:
             return "Error"

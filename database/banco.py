@@ -28,7 +28,7 @@ class Ficheiro():
                      nome TEXT NOT NULL,
                      idade INTEGER NOT NULL,
                      raca TEXT NOT NULL,
-                     classe TEXT NOT NULL,
+                     divindade TEXT NOT NULL,
                      FOREIGN KEY (idusuario) REFERENCES usuarios(idusuario)
                      )""")
         self.conexao.commit()

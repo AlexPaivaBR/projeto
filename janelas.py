@@ -1,5 +1,5 @@
 from routes.usuarios import Usuarios
-from estilo import Estilo
+from routes.estilo import Estilo
 from tkinter import *
 from tkinter import messagebox
 from tkinter import PhotoImage
@@ -86,21 +86,59 @@ class JanelaPrincipal():
 
     def criarWidgets(self):
         
+        self.frmLogo = Frame(self.master, bg=self.corFundo)
         self.frmBarra = Frame(self.master, bg=self.corFundo)
         self.frmMensagem = Frame(self.master, bg=self.corFundo)
 
-        self.frmBarra.grid(column=0, row=2)
-        self.frmMensagem.grid(column=0, row=3)
+         # Criando IMG de Logo
+        imgLogo = PhotoImage(file="img/spqr.png")
+        self.lblLogo = Label(self.frmLogo, image=imgLogo, bg=self.corFundo)
+        self.lblLogo.image = imgLogo
 
-        self.btnCriacao = Button(self.frmBarra, text="Criar")
-        self.btnAlteracao = Button(self.frmBarra, text="Alterar")
-        self.btnDelecao = Button(self.frmBarra, text="Deletar")
+        self.btnCriacao = Button(self.frmBarra, text="Criar", cursor="hand2", width=10, height=1)
+        self.btnCriacao["font"] = self.fontePadrao
+        self.btnCriacao["relief"] = RIDGE
+        self.btnCriacao["fg"] = self.corFundo
+        self.btnCriacao["bg"] = self.corFrente
+        self.btnCriacao["activeforeground"] = self.corFundo
+        self.btnCriacao["activebackground"] = self.corFrente
+        self.btnCriacao["command"] = self.irCriacao
+
+        self.btnAlteracao = Button(self.frmBarra, text="Alterar", cursor="hand2", width=10, height=1)
+        self.btnAlteracao["font"] = self.fontePadrao
+        self.btnAlteracao["relief"] = RIDGE
+        self.btnAlteracao["fg"] = self.corFundo
+        self.btnAlteracao["bg"] = self.corFrente
+        self.btnAlteracao["activeforeground"] = self.corFundo
+        self.btnAlteracao["activebackground"] = self.corFrente
+        self.btnAlteracao["command"] = self.irAlteracao
+
+        self.btnDelecao = Button(self.frmBarra, text="Deletar", cursor="hand2", width=10, height=1)
+        self.btnDelecao["font"] = self.fontePadrao
+        self.btnDelecao["relief"] = RIDGE
+        self.btnDelecao["fg"] = self.corFundo
+        self.btnDelecao["bg"] = self.corFrente
+        self.btnDelecao["activeforeground"] = self.corFundo
+        self.btnDelecao["activebackground"] = self.corFrente
+        self.btnDelecao["command"] = self.irDelecao
 
         self.lblMensagem = Label(self.frmMensagem, text="teste")
+        self.lblMensagem["font"] = self.fontePadrao
+        self.lblMensagem["justify"] = CENTER
+        self.lblMensagem["fg"] = self.corFrente
+        self.lblMensagem["bg"] = self.corFundo
+        self.lblMensagem["activeforeground"] = self.corFrente
+        self.lblMensagem["activebackground"] = self.corFundo
 
-        self.btnCriacao.grid(column=0, row=0)
-        self.btnAlteracao.grid(column=1, row=0)
-        self.btnDelecao.grid(column=2, row=0)
+        # Empacotando widgets de FRM
+        self.frmLogo.grid(column=0, row=0, padx=180, pady=10)
+        self.frmBarra.grid(column=0, row=1, pady=10)
+        self.frmMensagem.grid(column=0, row=2)
+
+        self.lblLogo.grid(column=0, row=0)
+        self.btnCriacao.grid(column=0, row=0, padx=5)
+        self.btnAlteracao.grid(column=1, row=0, padx=5)
+        self.btnDelecao.grid(column=2, row=0, padx=5)
         self.lblMensagem.grid()
 
         self.btnCriacao.bind("<Enter>", lambda msgCriar: self.mensagemCriacao())
@@ -119,11 +157,43 @@ class JanelaPrincipal():
 
         self.lblMensagem["text"] = "Clique para deletar uma ficha"
 
-    def iniciarProcedimento(self):
+
+    def irCriacao(self):
+        
+        self.limparJanela()
+
+        # Chamando a class JanelaCriacao
+        criacao = JanelaCriacao()
+
+    def irAlteracao(self):
+
+        self.limparJanela()
+
+        # Chamando a class JanelaCriacao
+        criacao = JanelaCriacao()
+
+    def irDelecao(self):
+        
+        self.limparJanela()
+        
+        delecao = JanelaDelecao()
+
+    def irHistorico(self):
         pass
 
-    def historico(self):
-        pass
+    def limparJanela(self):
+
+        # Desempacotando widgets de FRM
+        self.frmLogo.grid_forget()
+        self.frmBarra.grid_forget()
+        self.frmMensagem.grid_forget()
+
+        # Desempacontando widgets de LBL e BTN
+        self.lblLogo.grid_forget()
+        self.btnCriacao.grid_forget()
+        self.btnAlteracao.grid_forget()
+        self.btnDelecao.grid_forget()
+        self.lblMensagem.grid_forget()
 
 class JanelaAjuda():
     def __init__(self, master=None):
@@ -409,7 +479,7 @@ class JanelaLogin():
         retorno = login.autenticarUsuario()
         
         if retorno == True:
-            principal = JanelaPrincipal()
+            self.irPrincipal()
 
         else:
             messagebox.showwarning("Login", retorno)  
@@ -417,6 +487,33 @@ class JanelaLogin():
     def irCadastro(self):
 
         cadastro = JanelaCadastro()
+
+    def irPrincipal(self):
+        
+        # Desempacotando Frames
+        self.frmLogo.grid_forget()
+        self.frmLogin.grid_forget()
+        self.frmBarra.grid_forget()
+
+        # Desempacotando widgets de Usuário
+        self.lblLogo.grid_forget()
+        self.lblUsuario.grid_forget()
+        self.entUsuario.grid_forget()
+
+        # Desempacotando widgets de Senha
+        self.lblSenha.grid_forget()
+        self.entSenha.grid_forget()
+        self.btnLogin.grid_forget()
+        self.lblMensagem.grid_forget()
+        self.lblVoltar.grid_forget()
+
+        # Desempacotando widgets de Divisores
+        self.lblDivisor1.grid_forget()
+        self.lblDivisor2.grid_forget()
+        self.lblDivisor3.grid_forget()
+        self.lblDivisor4.grid_forget()
+
+        principal = JanelaPrincipal()
 
     def voltarInicio(self):
 
@@ -519,9 +616,8 @@ class JanelaInicial():
         self.btnAjuda["command"] = self.irAjuda
 
         # Criando BTN de Cadastrar
-        self.lblMensagem = Label(self.frmMensagem, text="Selecione uma opção", width=23, height=10)
+        self.lblMensagem = Label(self.frmMensagem, text="Selecione uma opção")
         self.lblMensagem["font"] = self.fontePadrao
-        self.lblMensagem["relief"] = RIDGE
         self.lblMensagem["justify"] = CENTER
         self.lblMensagem["fg"] = self.corFrente
         self.lblMensagem["bg"] = self.corFundo
@@ -573,6 +669,7 @@ class JanelaInicial():
         self.lblDescricao.grid_forget()
         self.btnSobre.grid_forget()
         self.btnAjuda.grid_forget()
+        self.lblMensagem.grid_forget()
 
         login = JanelaLogin()
 
@@ -581,10 +678,30 @@ class JanelaInicial():
         cadastro = JanelaCadastro()
 
     def irSobre(self):
+        
+        self.frmLogo.grid_forget()
+        self.frmDescricao.grid_forget()
+        self.frmBarra.grid_forget()
+        self.lblTitulo.grid_forget()
+        self.lblLogo.grid_forget()
+        self.lblDescricao.grid_forget()
+        self.btnSobre.grid_forget()
+        self.btnAjuda.grid_forget()
+        self.lblMensagem.grid_forget()
 
         sobre = JanelaSobre()
 
     def irAjuda(self):
+
+        self.frmLogo.grid_forget()
+        self.frmDescricao.grid_forget()
+        self.frmBarra.grid_forget()
+        self.lblTitulo.grid_forget()
+        self.lblLogo.grid_forget()
+        self.lblDescricao.grid_forget()
+        self.btnSobre.grid_forget()
+        self.btnAjuda.grid_forget()
+        self.lblMensagem.grid_forget()
 
         ajuda = JanelaAjuda()
 
@@ -596,5 +713,5 @@ if __name__ == "__main__":
     root.geometry("600x600+500+100")
     root["bg"] = "#330c50"
     
-    programa = JanelaPrincipal(root)
+    programa = JanelaInicial(root)
     root.mainloop()

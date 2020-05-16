@@ -1,5 +1,6 @@
 from routes.usuarios import Usuarios
 from routes.estilo import Estilo
+
 from tkinter import *
 from tkinter import messagebox
 from tkinter import PhotoImage
@@ -61,6 +62,8 @@ class JanelaCriacao():
 
         # Atributos
         self.master = master
+        self.raca = IntVar()
+        self.classe = IntVar()
 
         # Lista de estilo
         Estilo.__init__(self)
@@ -68,9 +71,54 @@ class JanelaCriacao():
         self.criarWidgets()
 
     def criarWidgets(self):
-        pass
+        
+        self.frmNome = Frame(self.master)
+        self.frmIdade = Frame(self.master)
+        self.frmRaca = Frame(self.master)
+        self.frmClasse = Frame(self.master)
+        self.frmDivindade = Frame(self.master)
+        self.frmPersonalidade = Frame(self.master)
+        self.frmHistoria = Frame(self.master)
 
-    def iniciarProcedimento(self):
+        self.lblNome = Label(self.frmNome, text="Nome")
+        self.lblIdade = Label(self.frmIdade, text="Idade")
+        self.lblRaca = Label(self.frmRaca, text="Raça")
+        self.lblClasse = Label(self.frmClasse, text="Classe")
+        self.lblPersonalidade = Label(self.frmPersonalidade, text="Personalidade")
+        self.lblHistoria = Label(self.frmHistoria, text="História")
+
+        self.entNome = Entry(self.frmNome, )
+        self.spbIdade = Spinbox(self.frmIdade, width=5)
+        self.rdbRaca = Radiobutton(self.frmRaca)
+        self.rdbClasse = Radiobutton(self.frmClasse)
+        self.txtPersonalidade = Text(self.frmPersonalidade)
+        self.txtHistoria = Text(self.frmHistoria)
+
+        self.frmNome.grid(column=0, row=0)
+        self.frmIdade.grid(column=0, row=1)
+        self.frmRaca.grid(column=0, row=2)
+        self.frmClasse.grid(column=0, row=3)
+        self.frmDivindade.grid(column=0, row=4)
+        self.frmPersonalidade.grid(column=0, row=5)
+        self.frmHistoria.grid(column=0, row=6)
+
+        self.lblNome.grid(sticky = W)
+        self.entNome.grid()
+
+        self.lblIdade.grid(sticky = W)
+        self.spbIdade.grid()
+
+        self.lblRaca.grid()
+        self.rdbRaca.grid()
+
+        self.lblClasse.grid()
+        self.rdbClasse.grid()
+
+        self.lblPersonalidade.grid()
+        self.txtPersonalidade.grid()
+        self.txtHistoria.grid()
+
+    def cancelarCriacao(self):
         pass
 
 class JanelaPrincipal():
@@ -122,7 +170,7 @@ class JanelaPrincipal():
         self.btnDelecao["activebackground"] = self.corFrente
         self.btnDelecao["command"] = self.irDelecao
 
-        self.lblMensagem = Label(self.frmMensagem, text="teste")
+        self.lblMensagem = Label(self.frmMensagem, text="Escolha uma opção")
         self.lblMensagem["font"] = self.fontePadrao
         self.lblMensagem["justify"] = CENTER
         self.lblMensagem["fg"] = self.corFrente
@@ -139,24 +187,15 @@ class JanelaPrincipal():
         self.btnCriacao.grid(column=0, row=0, padx=5)
         self.btnAlteracao.grid(column=1, row=0, padx=5)
         self.btnDelecao.grid(column=2, row=0, padx=5)
-        self.lblMensagem.grid()
+        self.lblMensagem.grid(pady=5)
 
-        self.btnCriacao.bind("<Enter>", lambda msgCriar: self.mensagemCriacao())
-        self.btnAlteracao.bind("<Enter>", lambda msgAlterar: self.mensagemAlteracao())
-        self.btnDelecao.bind("<Enter>", lambda msgDeletar: self.mensagemDelecao())
+        self.btnCriacao.bind("<Enter>", lambda msgCriar: self.mostrarDescricao("Clique para criar uma ficha"))
+        self.btnAlteracao.bind("<Enter>", lambda msgAlterar: self.mostrarDescricao("Clique para alterar uma ficha"))
+        self.btnDelecao.bind("<Enter>", lambda msgDeletar: self.mostrarDescricao("Clique para deletar uma ficha"))
 
-    def mensagemCriacao(self):
+    def mostrarDescricao(self, msg):
 
-        self.lblMensagem["text"] = "Clique para criar uma ficha"
-
-    def mensagemAlteracao(self):
-
-        self.lblMensagem["text"] = "Clique para alterar uma ficha"
-
-    def mensagemDelecao(self):
-
-        self.lblMensagem["text"] = "Clique para deletar uma ficha"
-
+        self.lblMensagem["text"] = msg
 
     def irCriacao(self):
         
@@ -490,6 +529,18 @@ class JanelaLogin():
 
     def irPrincipal(self):
         
+        self.limparJanela()
+
+        principal = JanelaPrincipal()
+
+    def voltarInicio(self):
+
+        self.limparJanela()
+
+        inicio = JanelaInicial()
+
+    def limparJanela(self):
+        
         # Desempacotando Frames
         self.frmLogo.grid_forget()
         self.frmLogin.grid_forget()
@@ -512,30 +563,6 @@ class JanelaLogin():
         self.lblDivisor2.grid_forget()
         self.lblDivisor3.grid_forget()
         self.lblDivisor4.grid_forget()
-
-        principal = JanelaPrincipal()
-
-    def voltarInicio(self):
-
-        self.frmLogo.grid_forget()
-        self.frmLogin.grid_forget()
-        self.frmBarra.grid_forget()
-
-        self.lblLogo.grid_forget()
-        self.lblUsuario.grid_forget()
-        self.entUsuario.grid_forget()
-        self.lblSenha.grid_forget()
-        self.entSenha.grid_forget()
-        self.btnLogin.grid_forget()
-        self.lblMensagem.grid_forget()
-        self.lblVoltar.grid_forget()
-
-        self.lblDivisor1.grid_forget()
-        self.lblDivisor2.grid_forget()
-        self.lblDivisor3.grid_forget()
-        self.lblDivisor4.grid_forget()
-
-        inicio = JanelaInicial()
 
 class JanelaInicial():
     def __init__(self, master=None):
@@ -642,34 +669,18 @@ class JanelaInicial():
         self.btnSobre.grid(column=0, row=1, padx=5, pady=5)
         self.btnAjuda.grid(column=1, row=1, padx=5, pady=5)
 
-        self.btnLogin.bind("<Enter>", lambda msgLogin: self.mensagemLogin())
-        self.btnCadastro.bind("<Enter>", lambda msgCadastro: self.mensagemCadastro())
-        self.btnSobre.bind("<Enter>", lambda msgSobre: self.mensagemSobre())
-        self.btnAjuda.bind("<Enter>", lambda msgAjuda: self.mensagemAjuda())
+        self.btnLogin.bind("<Enter>", lambda msgLogin: self.mostrarDescricao("Clique para conectar-se com aplicativo"))
+        self.btnCadastro.bind("<Enter>", lambda msgCadastro: self.mostrarDescricao("Clique para registrar uma conta"))
+        self.btnSobre.bind("<Enter>", lambda msgSobre: self.mostrarDescricao("Informações sobre o jogo"))
+        self.btnAjuda.bind("<Enter>", lambda msgAjuda: self.mostrarDescricao("Guia de ajuda"))
 
-    def mensagemLogin(self):
-        self.lblMensagem["text"] = "Clique para conectar-se com aplicativo"
+    def mostrarDescricao(self, msg):
 
-    def mensagemCadastro(self):
-        self.lblMensagem["text"] = "Clique para registrar uma conta"
-
-    def mensagemSobre(self):
-        self.lblMensagem["text"] = "Informações sobre o jogo"
-
-    def mensagemAjuda(self):
-        self.lblMensagem["text"] = "Guia de ajuda"
+        self.lblMensagem["text"] = msg
 
     def irLogin(self):
 
-        self.frmLogo.grid_forget()
-        self.frmDescricao.grid_forget()
-        self.frmBarra.grid_forget()
-        self.lblTitulo.grid_forget()
-        self.lblLogo.grid_forget()
-        self.lblDescricao.grid_forget()
-        self.btnSobre.grid_forget()
-        self.btnAjuda.grid_forget()
-        self.lblMensagem.grid_forget()
+        self.limparJanela()
 
         login = JanelaLogin()
 
@@ -679,20 +690,18 @@ class JanelaInicial():
 
     def irSobre(self):
         
-        self.frmLogo.grid_forget()
-        self.frmDescricao.grid_forget()
-        self.frmBarra.grid_forget()
-        self.lblTitulo.grid_forget()
-        self.lblLogo.grid_forget()
-        self.lblDescricao.grid_forget()
-        self.btnSobre.grid_forget()
-        self.btnAjuda.grid_forget()
-        self.lblMensagem.grid_forget()
+        self.limparJanela()
 
         sobre = JanelaSobre()
 
     def irAjuda(self):
 
+        self.limparJanela()
+
+        ajuda = JanelaAjuda()
+
+    def limparJanela(self):
+
         self.frmLogo.grid_forget()
         self.frmDescricao.grid_forget()
         self.frmBarra.grid_forget()
@@ -702,16 +711,3 @@ class JanelaInicial():
         self.btnSobre.grid_forget()
         self.btnAjuda.grid_forget()
         self.lblMensagem.grid_forget()
-
-        ajuda = JanelaAjuda()
-
-if __name__ == "__main__":
-    root = Tk()
-    root.iconbitmap("img/spqr-icon.ico")
-    root.title("< SPQR > Gerenciador de fichas")
-    root.resizable(width=False, height=False)
-    root.geometry("600x600+500+100")
-    root["bg"] = "#330c50"
-    
-    programa = JanelaInicial(root)
-    root.mainloop()

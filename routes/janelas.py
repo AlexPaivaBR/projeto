@@ -63,7 +63,6 @@ class JanelaCriacao():
         # Atributos
         self.master = master
         self.raca = IntVar()
-        self.classe = IntVar()
 
         # Lista de estilo
         Estilo.__init__(self)
@@ -72,35 +71,95 @@ class JanelaCriacao():
 
     def criarWidgets(self):
         
-        self.frmNome = Frame(self.master)
-        self.frmIdade = Frame(self.master)
-        self.frmRaca = Frame(self.master)
-        self.frmClasse = Frame(self.master)
-        self.frmDivindade = Frame(self.master)
-        self.frmPersonalidade = Frame(self.master)
-        self.frmHistoria = Frame(self.master)
+        self.frmNome = Frame(self.master, bg=self.corFundo)
+        self.frmIdade = Frame(self.master, bg=self.corFundo)
+        self.frmRaca = Frame(self.master, bg=self.corFundo)
+        self.frmDivindade = Frame(self.master, bg=self.corFundo)
+        self.frmPersonalidade = Frame(self.master, bg=self.corFundo)
+        self.frmHistoria = Frame(self.master, bg=self.corFundo)
+        self.frmMensagem = Frame(self.master, bg=self.corFundo)
+        self.frmCriar = Frame(self.master, bg=self.corFundo)
+        self.frmBotoes = Frame(self.master, bg=self.corFundo)
 
         self.lblNome = Label(self.frmNome, text="Nome")
-        self.lblIdade = Label(self.frmIdade, text="Idade")
-        self.lblRaca = Label(self.frmRaca, text="Raça")
-        self.lblClasse = Label(self.frmClasse, text="Classe")
-        self.lblPersonalidade = Label(self.frmPersonalidade, text="Personalidade")
-        self.lblHistoria = Label(self.frmHistoria, text="História")
+        self.lblNome["font"] = self.fontePadrao
+        self.lblNome["fg"] = self.corFrente
+        self.lblNome["bg"] = self.corFundo
 
-        self.entNome = Entry(self.frmNome, )
+        self.lblIdade = Label(self.frmIdade, text="Idade")
+        self.lblIdade["font"] = self.fontePadrao
+        self.lblIdade["fg"] = self.corFrente
+        self.lblIdade["bg"] = self.corFundo
+
+        self.lblRaca = Label(self.frmRaca, text="Raça")
+        self.lblRaca["font"] = self.fontePadrao
+        self.lblRaca["fg"] = self.corFrente
+        self.lblRaca["bg"] = self.corFundo
+
+        self.lblPersonalidade = Label(self.frmPersonalidade, text="Personalidade")
+        self.lblPersonalidade["font"] = self.fontePadrao
+        self.lblPersonalidade["fg"] = self.corFrente
+        self.lblPersonalidade["bg"] = self.corFundo
+
+        self.lblHistoria = Label(self.frmHistoria, text="História")
+        self.lblHistoria["font"] = self.fontePadrao
+        self.lblHistoria["fg"] = self.corFrente
+        self.lblHistoria["bg"] = self.corFundo
+
+        self.entNome = Entry(self.frmNome)
+
         self.spbIdade = Spinbox(self.frmIdade, width=5)
-        self.rdbRaca = Radiobutton(self.frmRaca)
-        self.rdbClasse = Radiobutton(self.frmClasse)
-        self.txtPersonalidade = Text(self.frmPersonalidade)
-        self.txtHistoria = Text(self.frmHistoria)
+
+        # Criando Radiobutton de Raças
+        self.rdbSemideus = Radiobutton(self.frmRaca, text="Semideus", value=1, variable=self.raca, selectcolor="black")
+        self.rdbSemideus["activebackground"] = self.corFrente
+        self.rdbSemideus["activeforeground"] = self.corFundo
+        self.rdbSemideus["fg"] = self.corFrente
+        self.rdbSemideus["bg"] = self.corFundo
+        self.rdbSemideus["command"] = self.selecionarRaca
+       
+        self.rdbLegado = Radiobutton(self.frmRaca, text="Legado", value=2, variable=self.raca, selectcolor="black")
+        self.rdbLegado["activebackground"] = self.corFrente
+        self.rdbLegado["activeforeground"] = self.corFundo
+        self.rdbLegado["fg"] = self.corFrente
+        self.rdbLegado["bg"] = self.corFundo
+        self.rdbLegado["command"] = self.selecionarRaca
+
+        # Criando Text de Personalidade e História
+        self.txtPersonalidade = Text(self.frmPersonalidade, width=20, height=5, wrap=WORD)
+
+        self.txtHistoria = Text(self.frmHistoria, width=20, height=5, wrap=WORD)
+
+        self.lblMensagem = Label(self.frmMensagem, text="Preencha o formulário")
+        self.lblMensagem["font"] = self.fontePadrao
+        self.lblMensagem["fg"] = self.corFrente
+        self.lblMensagem["bg"] = self.corFundo
+
+        self.btnCriar = Button(self.frmCriar)
+        self.btnCriar["fg"] = self.corFrente
+        self.btnCriar["bg"] = self.corFundo
+
+        self.btnLimpar = Button(self.frmBotoes)
+        self.btnLimpar["text"] = "Limpar"
+        self.btnLimpar["fg"] = self.corFrente
+        self.btnLimpar["bg"] = self.corFundo
+        self.btnLimpar["command"] = self.limparCriacao
+
+        self.btnCancelar = Button(self.frmBotoes)
+        self.btnCancelar["text"] = "Cancelar"
+        self.btnCancelar["fg"] = self.corFrente
+        self.btnCancelar["bg"] = self.corFundo
+        self.btnCancelar["command"] = self.cancelarCriacao
 
         self.frmNome.grid(column=0, row=0)
         self.frmIdade.grid(column=0, row=1)
         self.frmRaca.grid(column=0, row=2)
-        self.frmClasse.grid(column=0, row=3)
-        self.frmDivindade.grid(column=0, row=4)
-        self.frmPersonalidade.grid(column=0, row=5)
-        self.frmHistoria.grid(column=0, row=6)
+        self.frmDivindade.grid(column=0, row=3)
+        self.frmPersonalidade.grid(column=0, row=4, pady=5)
+        self.frmHistoria.grid(column=0, row=5, pady=5)
+        self.frmCriar.grid(column=0, row=6)
+        self.frmMensagem.grid(column=0, row=7)
+        self.frmBotoes.grid(column=0, row=8)
 
         self.lblNome.grid(sticky = W)
         self.entNome.grid()
@@ -108,18 +167,60 @@ class JanelaCriacao():
         self.lblIdade.grid(sticky = W)
         self.spbIdade.grid()
 
-        self.lblRaca.grid()
-        self.rdbRaca.grid()
+        self.lblRaca.grid(column=0, row=0, sticky = W)
+        self.rdbSemideus.grid(column=0, row=1)
+        self.rdbLegado.grid(column=1, row=1)
 
-        self.lblClasse.grid()
-        self.rdbClasse.grid()
-
-        self.lblPersonalidade.grid()
+        self.lblPersonalidade.grid(sticky = W)
         self.txtPersonalidade.grid()
+
+        self.lblHistoria.grid(sticky = W)
         self.txtHistoria.grid()
 
+        self.lblMensagem.grid()
+        self.btnCriar.grid()
+
+        self.btnCancelar.grid(sticky = W)
+        self.btnLimpar.grid(sticky = E)
+
+    def limparCriacao(self):
+        self.entNome.delete()
+        self.spbIdade.delete()
+        self.rdbSemideus.delete()
+        self.rdbLegado.delete()
+        self.txtPersonalidade.delete()
+        self.txtHistoria.delete()
+
     def cancelarCriacao(self):
-        pass
+
+        self.frmNome.grid_forget()
+        self.frmIdade.grid_forget()
+        self.frmRaca.grid_forget()
+        self.frmDivindade.grid_forget()
+        self.frmPersonalidade.grid_forget()
+        self.frmHistoria.grid_forget()
+        self.frmCriar.grid_forget()
+        self.frmMensagem.grid_forget()
+
+        self.lblNome.grid_forget()
+        self.entNome.grid_forget()
+        self.lblIdade.grid_forget()
+        self.spbIdade.grid_forget()
+        self.lblRaca.grid_forget()
+        self.rdbSemideus.grid_forget()
+        self.rdbLegado.grid_forget()
+        self.lblPersonalidade.grid_forget()
+        self.txtPersonalidade.grid_forget()
+        self.lblHistoria.grid_forget()
+        self.txtHistoria.grid_forget()
+        self.lblMensagem.grid_forget()
+        self.btnCriar.grid_forget()
+
+    def selecionarRaca(self):
+
+        self.selecionado = "Você selecionou a " + str(self.raca.get())
+        self.label = Label(self.master, text=self.selecionado)
+        self.label.grid()
 
 class JanelaPrincipal():
     def __init__(self, master=None):

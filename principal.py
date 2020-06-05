@@ -9,5 +9,5 @@ if __name__ == "__main__":
     root.geometry("600x600+500+100")
     root["bg"] = "#330c50"
     
-    programa = JanelaCriacao(root)
+    programa = JanelaInicial(root)
     root.mainloop()
